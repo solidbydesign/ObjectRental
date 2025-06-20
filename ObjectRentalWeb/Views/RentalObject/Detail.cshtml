@@ -1,0 +1,72 @@
+﻿@using ObjectRentalData.Models
+@model RentalObjectDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+@if (Model != null)
+{
+    <h2>@Model.Type <i>@Model.Name</i></h2>
+    <h4>@Model.Details</h4>
+    <p>Year of Purchase: @Model.Year</p>
+    <p>Price: @Html.DisplayFor(m => Model.Price)</p>
+    <p>
+        Status: @Model.Status
+        @if (Model.Status == Status.Rented)
+        {
+            @: by @Model.CurrentBorrower
+        }
+        else if (Model.Status == Status.Reserved)
+        {
+            <div>
+                Waiting list:
+                @{
+                    var builder = new System.Text.StringBuilder();
+                    builder.AppendJoin(", ", Model.WaitingList.Select(
+                    b => b.FirstName + " " + b.LastName));
+                    @builder
+                }
+            </div>
+        }
+    </p>
+    <img class="image" src="@Model.ImageUrl" />
+    @if (Model.Status == Status.Available)
+    {
+        <p>
+            <a class="btn btn-lg btn-info" asp-action="Rent"
+               asp-route-id="@Model.Id">Rent</a>
+        </p>
+    }
+    else
+    {
+        if (Model.Status == Status.Reserved)
+        {
+            <form asp-action="ClaimReservation" method="post"
+                  asp-route-itemId="@Model.Id"
+                  asp-route-borrowerId="@Model.WaitingList.FirstOrDefault()?.Id">
+                <p>
+                    <button type="submit" class="btn btn-success btn-lg">
+                        Claim Reservation
+                    </button>
+                </p>
+            </form>
+        }
+        else
+        {
+            <form asp-action="ReturnItem" asp-controller="RentalObject" asp-route-id="@Model.Id" method="post">
+                <p>
+                    <button class="btn btn-lg btn-success">Return</button>
+                </p>
+            </form>
+
+
+        }
+        <p>
+            <a class="btn btn-lg btn-warning" asp-action="Reserve"
+               asp-route-id="@Model.Id">Reserve</a>
+        </p>
+    }
+}
+else
+{
+    <p class="btn btn-danger">@ViewBag.ErrorMessage</p>
+}

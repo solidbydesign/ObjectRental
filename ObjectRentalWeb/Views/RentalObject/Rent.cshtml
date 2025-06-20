@@ -1,0 +1,22 @@
+﻿@model ObjectRentalWeb.Models.RentViewModel
+
+
+@{
+    ViewData["Title"] = "Loan";
+}
+
+<h2>@Model!.Name</h2>
+
+<img src="@Model.ImageUrl" class="image" />
+
+<form asp-action="RegisterLoan" asp-route-itemId="@Model.ItemId"
+      asp-route-SelectedBorrowerId="@Model.SelectedBorrowerId" method="post">
+    <div>
+        <label asp-for="@Model.SelectedBorrowerId" class="form-label">
+            Select a borrower:
+        </label>
+        <select asp-for="@Model.SelectedBorrowerId" class="form-control"
+                asp-items="@Model.Borrowers"></select>
+    </div>
+    <button type="submit" class="btn btn-success btn-lg">Confirm Loan</button>
+</form>

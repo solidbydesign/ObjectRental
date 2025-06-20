@@ -1,0 +1,42 @@
+﻿@using ObjectRentalData.Models
+@model IEnumerable<Borrower>
+@{
+    ViewData["Title"] = "Borrowers";
+}
+
+<h2>Borrowers</h2>
+
+@if (Model?.Any() != true)
+{
+    <h3>No borrowers registered.</h3>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Address</th>
+                <th>Date of Birth</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var borrower in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Detail" asp-route-id="@borrower.Id">
+                            @borrower.Id
+                        </a>
+                    </td>
+                    <td>@borrower.FirstName</td>
+                    <td>@borrower.LastName</td>
+                    <td>@borrower.Adress</td>
+                    <td>@borrower.DateOfBirth.ToString("dd/MM/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,53 @@
+﻿@model ObjectRentalWeb.Models.ReserveViewModel
+
+@{
+    ViewData["Title"] = "Reserve";
+}
+
+<h2>@Model.Name</h2>
+
+<img class="image" src="@Model.ImageUrl" />
+
+<p>Reservations</p>
+
+@if (!Model.Reservations.Any())
+{
+    <p>There are currently no reservations.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var res in Model.Reservations)
+            {
+                <tr>
+                    <td>@res.Borrower.FirstName @res.Borrower.LastName</td>
+                    <td>@res.ReservedOn.ToString("yyyy-MM-dd")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="ReserveItem" asp-route-itemId="@Model.ItemId" method="post">
+    <div>
+        <label asp-for="@Model.SelectedBorrowerId" class="form-label">
+            Select a borrower:
+        </label>
+        <select asp-for="@Model.SelectedBorrowerId" class="form-control"
+                asp-items="@Model.Borrowers"></select>
+    </div>
+    <button type="submit" class="btn btn-success btn-lg mt-4">
+        Confirm Reservation
+    </button>
+</form>

@@ -1,0 +1,55 @@
+﻿@model BorrowerDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+@if (Model != null)
+{
+    <h2>Borrower @Model.Borrower.FirstName @Model.Borrower.LastName</h2>
+    <p>Date of birth: @Html.DisplayFor(m => Model.Borrower.DateOfBirth)</p>
+    <p>Address: @Model.Borrower.Adress</p>
+    <p>Phone number: @Model.Borrower.PhoneNumber</p>
+    <p>Open rentals count: @(Model.OpenRentals.Count())</p>
+
+    @if (Model.OpenRentals.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr><td>Item</td><td>From</td></tr>
+            </thead>
+            <tbody>
+                @foreach (var rental in Model.OpenRentals)
+                {
+                    <tr>
+                        <td>@rental.RentalObject.Name</td>
+                        <td>@rental.From</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <p>Reservations count: @(Model.Reservations.Count())</p>
+
+    @if (Model.Reservations.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr><td>Item</td><td>Reserved on</td></tr>
+            </thead>
+            <tbody>
+                @foreach (var reservation in Model.Reservations)
+                {
+                    <tr>
+                        <td>@reservation.RentalObject.Name</td>
+                        <td>@reservation.ReservedOn</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+else
+{
+    <p class="btn btn-danger">@ViewBag.ErrorMessage</p>
+}
