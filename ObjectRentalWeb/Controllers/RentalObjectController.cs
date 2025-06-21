@@ -29,21 +29,22 @@ public class RentalObjectController : Controller
 
     public IActionResult Index()
     {
-        var objects = rentalObjectService.GetAllRentalObjects();
-        var objectList = objects.Select(
-            obj => new RentalObjectDetailViewModel
-            {
-                Id = obj.Id,
-                Name = obj.Name,
-                Year = obj.Year,
-                Price = obj.Price,
-                Status = obj.Status,
-                Details = rentalObjectService.GetDetails(obj.Id),
-                Type = rentalObjectService.GetRentalObjectType(obj.Id)
-            });
+        var objects = rentalObjectService.GetAllRentalObjectDetails();
+        var objectList = objects.Select(obj => new RentalObjectDetailViewModel
+        {
+            Id = obj.Id,
+            Name = obj.Name,
+            Year = obj.Year,
+            Price = obj.Price,
+            Status = obj.Status,
+            Type = rentalObjectService.GetRentalObjectType(obj.Id),
+            Details = rentalObjectService.GetDetails(obj.Id)
+        });
 
         return View(objectList);
     }
+
+
 
     public IActionResult Detail(int id)
     {

@@ -13,6 +13,7 @@ public interface IRentalObjectRepository
     IEnumerable<RentalObject> GetAll();
     Book? GetBook(int id);
     Device? GetDevice(int id);
+    IEnumerable<RentalObject> GetAllIncludingDetails();
 
     void SetStatus(int rentalObjectId, Status status);
 }

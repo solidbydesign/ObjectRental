@@ -57,4 +57,9 @@ public class RentalObjectService
     {
         return rentalObjectRepository.Get(id);
     }
+    public IEnumerable<RentalObject> GetAllRentalObjectDetails()
+    {
+        return rentalObjectRepository.GetAllIncludingDetails();
+    }
+
 }

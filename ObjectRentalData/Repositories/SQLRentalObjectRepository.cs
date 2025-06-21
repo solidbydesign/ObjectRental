@@ -49,4 +49,11 @@ public class SQLRentalObjectRepository : IRentalObjectRepository
             context.SaveChanges();
         }
     }
+    public IEnumerable<RentalObject> GetAllIncludingDetails()
+    {
+        return context.RentalObjects
+            .Include(r => (r as Device)!.Operatingsystem)  // Alleen voor Devices
+            .ToList();
+    }
+
 }
